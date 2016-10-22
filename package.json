@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/hermstadalex/CampusRoutes/issues"
   },
-  "homepage": "https://github.com/hermstadalex/CampusRoutes#readme"
+  "homepage": "https://github.com/hermstadalex/CampusRoutes#readme",
+  "dependencies": {
+    "express": "^4.14.0"
+  }
 }

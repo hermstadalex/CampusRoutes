@@ -1,7 +1,12 @@
 extends layout
 
 block content
-    h1 Rate your Route
+    h1(class='testHome text-center') #[strong CampusRoutes]
+    h4(class='text-center') Tell Others How Your Trip Went!
+
+    input(id="input-1" name="input-1" class="rating rating-loading" data-min="0" data-max="5" data-step="1")
+
+
     
     button(type="button" id="submit") submit
 
@@ -9,6 +14,10 @@ block content
 
     script(type="text/javascript").
         window.onload = function() {
+
+        // initialize with defaults
+        //$("#input-id").rating();
+
             document.getElementById("submit").onclick = function() {
                 location.href = "/select";
             };

@@ -1,9 +1,28 @@
 extends layout
 
 block content
-    h2 Do you want to...
+    h1(class='testHome text-center') #[strong Welcome to CampusRoutes]
+    h2(class='text-center') Let's Get Started!
     
-    p 
-        a(href="/record") Record a route
-    p
-        a(href="/find") Find a route
+   
+
+    p(class='text-center') Click to record a route, and share your experience
+
+    <button type="button" class="btn btn-success center-block" id = 'RecordId'>Record</button>
+
+    p(class='text-center') Click to find a route that other users liked
+
+    <button type="button" class="btn btn-success center-block" id = 'FindId'>Find</button>
+
+
+    script(type='text/javascript').
+        window.onload = function () {
+            document.getElementById("RecordId").onclick = function(){
+                location.href = "/record" 
+            };
+            document.getElementById("FindId").onclick = function()
+            {
+                location.href = "/Find"
+                }
+        };
+

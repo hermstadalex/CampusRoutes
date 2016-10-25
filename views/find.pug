@@ -4,3 +4,8 @@ html
 
     body
         h1 Where are you going?
+        
+        form(action="/navigate" method="get")
+            input(name="locationSearch" placeholder="Enter location" autofocus)
+            input(type= "submit" value = "Submit")
+            

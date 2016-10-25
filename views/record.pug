@@ -1,17 +1,17 @@
 html
     head
         title=title
-        script(type='text/javascript').
-            window.onload = function () {
-                document.getElementById("finish").onclick = function(){
-                    location.href = "/rate" };
-            }
-    
     body
         h1 Record your Route
         
         p Press finish when you are done.
         
-        
         button(type="button" id="finish") Finish
+        
+        script(type='text/javascript').
+            window.onload = function () {
+                document.getElementById("finish").onclick = function(){
+                    location.href = "/rate" 
+                };    
+            };
         

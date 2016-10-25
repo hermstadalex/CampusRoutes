@@ -3,3 +3,19 @@ html
         title= title
     body
         h1 Rate your Route
+        
+    button(type="button" id="submit") submit
+    
+    button(type="button" id="cancel") cancel
+    
+    script(type="text/javascript").
+        window.onload = function() {
+            document.getElementById("submit").onclick = function() {
+                location.href = "/select";
+            };
+            
+            document.getElementById("cancel").onclick = function() {
+                location.href = "/record";
+            };
+        };
+        

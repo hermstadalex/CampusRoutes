@@ -1,5 +1,6 @@
 var express = require('express');
 var app = express();
+var bodyParser = require('body-parser')
 
 app.set('port', (process.env.PORT || 3000));
 
@@ -8,6 +9,13 @@ app.use(express.static(__dirname + '/public'));
 // views is directory for all template files
 app.set('views', 'views');
 app.set('view engine', 'pug');
+
+
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
+app.use(bodyParser.json());
+
 
 app.get('/', function(request, response) {
   response.render('index',
@@ -32,6 +40,19 @@ app.get('/find', function(request, response) {
 app.get('/rate', function(request, response) {
   response.render('rate',
             { title: 'Rate your Route',});
+});
+
+app.get('/navigate', function(request, response) {
+
+    console.log(request.query);
+
+
+    var locationName = request.query.locationSearch;
+
+
+  response.render('navigate',
+            { title: 'Follow These Directions',
+              locationName: locationName, });
 });
 
 

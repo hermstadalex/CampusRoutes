@@ -1,11 +1,9 @@
-html
-    head
-        title= title
+extends layout
 
-    body
-        h1 Where are you going?
+block content
+    h1 Where are you going?
+    
+    form(action="/navigate" method="get")
+        input(name="locationSearch" placeholder="Enter location" autofocus)
+        input(type= "submit" value = "Submit")
         
-        form(action="/navigate" method="get")
-            input(name="locationSearch" placeholder="Enter location" autofocus)
-            input(type= "submit" value = "Submit")
-            

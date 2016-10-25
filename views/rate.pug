@@ -1,13 +1,12 @@
-html
-    head
-        title= title
-    body
-        h1 Rate your Route
-        
+extends layout
+
+block content
+    h1 Rate your Route
+    
     button(type="button" id="submit") submit
-    
+
     button(type="button" id="cancel") cancel
-    
+
     script(type="text/javascript").
         window.onload = function() {
             document.getElementById("submit").onclick = function() {
@@ -18,4 +17,4 @@ html
                 location.href = "/record";
             };
         };
-        
+    

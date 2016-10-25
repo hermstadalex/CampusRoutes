@@ -1,19 +1,18 @@
-html
-    head
-        title= title
-    body
-        h1 Follow these directions to #{locationName}
-        
-        button(type='button' id='endnav') End Navigation
-        button(type='button' id='cancelnav') Cancel Navigation
-        
-        script(type='text/javascript').
-            window.onload = function() {
-                document.getElementById("endnav").onclick = function() {
-                    location.href= "/rate";
-                };
-                
-                document.getElementById("cancelnav").onclick = function() {
-                    location.href= "/select";
-                };
+extends layout
+
+block content
+    h1 Follow these directions to #{locationName}
+    
+    button(type='button' id='endnav') End Navigation
+    button(type='button' id='cancelnav') Cancel Navigation
+    
+    script(type='text/javascript').
+        window.onload = function() {
+            document.getElementById("endnav").onclick = function() {
+                location.href= "/rate";
             };
+            
+            document.getElementById("cancelnav").onclick = function() {
+                location.href= "/select";
+            };
+        };

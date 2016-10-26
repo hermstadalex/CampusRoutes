@@ -5,3 +5,12 @@
 .testSelect {
 	color:blue;
 }
+
+.rating-container {
+    text-align: center;
+}
+
+.button-wrapper {
+    margin: 0 auto;
+    width: 100%;
+}

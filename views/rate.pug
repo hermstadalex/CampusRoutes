@@ -3,20 +3,19 @@ extends layout
 block content
     h1(class='testHome text-center') #[strong CampusRoutes]
     h4(class='text-center') Tell Others How Your Trip Went!
-
-    input(id="input-1" name="input-1" class="rating rating-loading" data-min="0" data-max="5" data-step="1")
-
-
     
-    button(type="button" id="submit") submit
-
-    button(type="button" id="cancel") cancel
+    input(id="input-id" class="center-block")
+    
+    div(class="center-block button-wrapper text-center")
+        button(type="button" id="cancel" class="btn btn-danger") Cancel
+        button(type="button" id="submit" class="btn btn-success") Submit
 
     script(type="text/javascript").
         window.onload = function() {
 
-        // initialize with defaults
-        //$("#input-id").rating();
+            // initialize with defaults
+            $("#input-id").rating({showCaption: false,
+                                   clearButton: ""});
 
             document.getElementById("submit").onclick = function() {
                 location.href = "/select";

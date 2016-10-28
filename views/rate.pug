@@ -10,7 +10,7 @@ block content
     h4(class='text-center') How was the traffic?
 
     div(class="button-group-wrapper")
-        div(class="btn-group btn-group-justified" role="group" aria-label="...")
+        div(class="btn-group btn-group-justified" id="traffic-group" role="group" aria-label="...")
             div(class="btn-group" role="group")
                 button(type="button" class="btn btn-default") Low
             div(class="btn-group" role="group")
@@ -22,7 +22,7 @@ block content
     h4(class="text-center") Duration of the Trip: #[strong 5:23]
     
     div(class="button-group-wrapper")
-        div(class="btn-group btn-group-justified" role="group" aria-label="...")
+        div(class="btn-group btn-group-justified" id="time-group" role="group" aria-label="...")
             div(class="btn-group" role="group")
                 button(type="button" class="btn btn-default") Early
             div(class="btn-group" role="group")
@@ -48,7 +48,7 @@ block content
             div(class="modal-content")
                 div(class="modal-header")
                     button(type="button" class="close" data-dismiss="modal")
-                    h4(class="modal-title") Modal Header
+                    h4(class="modal-title")
                         div(class="modal-body")
                             p Response Submited!
                             div(class="modal-footer")
@@ -61,16 +61,16 @@ block content
             $("#input-id").rating({showCaption: false,
                                    clearButton: ""});
 
-            //$("#topset > .btn").click(function() {
-              //  $("#topset > .btn").removeClass("active");
-                //$(this).addClass("active");
-            //});
+            $("#traffic-group .btn").click(function() {
+                $("#traffic-group .btn").removeClass("active");
+                $(this).addClass("active");
+            });
 
 
-            //$("#botset > .btn").click(function() {
-              //  $("#botset > .btn").removeClass("active");
-                //$(this).addClass("active");
-            //});
+            $("#time-group .btn").click(function() {
+              $("#time-group .btn").removeClass("active");
+              $(this).addClass("active");
+            });
 
             document.getElementById("close").onclick = function() {
                 location.href = "/select";

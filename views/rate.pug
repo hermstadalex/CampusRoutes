@@ -8,8 +8,7 @@ block content
         
         
     h4(class='text-center') How was the traffic?
-    
-    
+
     div(class="button-group-wrapper")
         div(class="btn-group btn-group-justified" role="group" aria-label="...")
             div(class="btn-group" role="group")
@@ -41,7 +40,19 @@ block content
     
     div(class="center-block button-wrapper text-center")
         button(type="button" id="cancel" class="btn btn-danger") Cancel
-        button(type="button" id="submit" class="btn btn-success") Submit
+        button(type="button" id="submit" class="btn btn-success" data-toggle="modal" data-target="#myModal") Submit
+    
+    div(id="myModal" class="modal fade" role="dialog")
+        div(class="modal-dialog")
+
+            div(class="modal-content")
+                div(class="modal-header")
+                    button(type="button" class="close" data-dismiss="modal")
+                    h4(class="modal-title") Modal Header
+                        div(class="modal-body")
+                            p Response Submited!
+                            div(class="modal-footer")
+                                button(type="button" id="close" class="btn btn-default" data-dismiss="modal")  Close
 
     script(type="text/javascript").
         window.onload = function() {
@@ -50,12 +61,25 @@ block content
             $("#input-id").rating({showCaption: false,
                                    clearButton: ""});
 
-            document.getElementById("submit").onclick = function() {
+            //$("#topset > .btn").click(function() {
+              //  $("#topset > .btn").removeClass("active");
+                //$(this).addClass("active");
+            //});
+
+
+            //$("#botset > .btn").click(function() {
+              //  $("#botset > .btn").removeClass("active");
+                //$(this).addClass("active");
+            //});
+
+            document.getElementById("close").onclick = function() {
                 location.href = "/select";
             };
             
+
             document.getElementById("cancel").onclick = function() {
                 location.href = "/record";
             };
         };
+        
     

@@ -2,12 +2,49 @@ extends layout
 
 block content
 
-    h1 Record your Route
-    
+    h1(class="text-center") Record your Route
+
+
+
+
+    div(id="map")
+
+
+
+    script(type="text/javascript").
+        function initMap() {
+            // Create a map object and specify the DOM element for display.
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: -34.397, lng: 150.644},
+                scrollwheel: false,
+                zoom: 8
+            });
+        }
+
+        $(window).resize(function () {
+            var h = $(window).height(),
+            offsetTop = 60; // Calculate the top offset
+            $('#map').css('height', (h - offsetTop));
+        }).resize();
+
+    script(async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC4Mdmwz4M0GbhDNj1PwjTnQ7FTx-wOLic&callback=initMap").
+
+
+
+
+
+
+
+
+
+
+
+
+
     p Press finish when you are done.
-    
+
     button(type="button" id="finish" class="btn btn-default") Finish
-    
+
     script(type='text/javascript').
         window.onload = function () {
             document.getElementById("finish").onclick = function(){

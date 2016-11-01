@@ -20,6 +20,8 @@ block content
                     lng: position.coords.longitude
                   };
 
+                  pubs();
+
                   infoWindow.setPosition(pos);
                   infoWindow.setContent('Location found.');
                   map.setCenter(pos);
@@ -39,5 +41,25 @@ block content
                                     'Error: Your browser doesn\'t support geolocation.');
             }
         })
+
+      function pubs() {
+
+        pubnub = PUBNUB.init({
+          publish_key:'pub-c-a4c4474b-9798-4031-8ddc-114987179ce8',
+          subscribe_key:'sub-c-48d24fe4-a07d-11e6-9bc0-02ee2ddab7fe'
+        })
+
+        pubnub.subscribe({
+          channel: "mymaps",
+          message: function(message, channel) {
+            console.log(message)
+            lat = message['lat'];
+            lng = message['lng'];
+            //custom method
+            redraw();
+          },
+          connect: function() {console.log("PubNub Connected")}
+        })
+      }
 
     script(async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC4Mdmwz4M0GbhDNj1PwjTnQ7FTx-wOLic&callback=initMap").

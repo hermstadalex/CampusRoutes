@@ -34,6 +34,17 @@ html, body {
   width: 100%;
 }
 
+.center_div{
+    margin: 0 auto;
+    width:10% /* value of your choice which suits your alignment */
+  }
+
+
+.center2_div{
+    margin: 0 auto;
+    width:70% /* value of your choice which suits your alignment */
+  }
+
 .container-fluid {
     margin: 0;
     height: 100%;

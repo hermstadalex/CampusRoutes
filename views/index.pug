@@ -4,14 +4,36 @@ block content
     h1(class='testHome text-center') #[strong Welcome to CampusRoutes]
     h2(class= 'testHome text-center') Let's Get Started!
 
-    //p(class= 'text-center') Click #[a(href="/select") here] to get started!
-
-
-    button(type="button" id="start" class="btn btn-success center-block") Start
-    
+    div(class="container center2_div")
+        form 
+          .form-group
+            label(for='email') Email address:
+            input#email.form-control(type='email')
+          .form-group
+            label(for='pwd') Password:
+            input#pwd.form-control(type='password')
+    div(class="container center_div" id="Submit")           
+        .checkbox
+            label
+              input(type='checkbox' class ="text-center")  
+              |  Remember me
+        //button.btn.btn-default(type='submit') Submit      
+        
+    div(class="center-block button-wrapper text-center")
+        button(type="button" id="Register" class="btn btn-success") Register
+        button(type="button" id="LogIn" class="btn btn-success" data-toggle="modal" data-target="#myModal") LogIn
+        
     script(type='text/javascript').
-        window.onload = function () {
-            document.getElementById("start").onclick = function(){
+        window.onload = function (){
+            document.getElementById("LogIn").onclick = function(){
+                location.href = "/select" 
+            };
+
+            document.getElementById("Register").onclick = function(){
+                location.href = "/select" 
+            };
+        
+            document.getElementById("Submit").onclick = function(){
                 location.href = "/select" 
             };
         };

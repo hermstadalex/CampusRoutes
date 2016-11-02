@@ -1,6 +1,12 @@
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser')
+var data = require('./GeiselToPines.json')
+var data2 = require('./GeiselToPines2.json')
+var data3 = require('./GeiselToPines3.json')
+
+
+
 
 app.set('port', (process.env.PORT || 3000));
 
@@ -27,9 +33,11 @@ app.get('/select', function(request, response) {
             { title: 'Select an Option',});
 });
 
+
+
 app.get('/record', function(request, response) {
   response.render('record',
-            { title: 'Record a Route',});
+            { title: 'Record a Route', data: JSON.stringify(data), data2: JSON.stringify(data2), data3: JSON.stringify(data3)});
 });
 
 app.get('/find', function(request, response) {

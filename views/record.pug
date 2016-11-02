@@ -4,12 +4,66 @@ block content
     div(id="map")
 
     script(type="text/javascript").
+        var pathArray;
+        var pathArray2;
+        var pathArray3;
+        var map;
         $(document).ready(function(){
-            window.initMap = function() {
-              var map = new google.maps.Map(document.getElementById('map'), {
+        
+            var datString = "#{data}".replace(/&quot;/g, '"');
+            var comp = decodeURIComponent(datString);
+            var data = JSON.parse(comp);
+            
+            pathArray = data.paths;
+            
+            var datString2 = "#{data2}".replace(/&quot;/g, '"');
+            var comp2 = decodeURIComponent(datString2);
+            var data2 = JSON.parse(comp2);
+            
+            pathArray2 = data2.paths;
+            
+            var datString3 = "#{data3}".replace(/&quot;/g, '"');
+            var comp3 = decodeURIComponent(datString3);
+            var data3 = JSON.parse(comp3);
+            
+            pathArray3 = data3.paths;
+            
+                            
+            window.initMap = function initMap() {
+              map = new google.maps.Map(document.getElementById('map'), {
                 center: {lat: 32.879350, lng: -117.238559},
-                zoom: 6
+                zoom: 14
               });
+              
+              
+              var path = new google.maps.Polyline({
+                  path: pathArray,
+                  geodesic: true,
+                  strokeColor: '#00ff00',
+                  strokeOpacity: 1.0,
+                  strokeWeight: 2
+              });
+              
+              var path2 = new google.maps.Polyline({
+                  path: pathArray2,
+                  geodesic: true,
+                  strokeColor: '#ff0000',
+                  strokeOpacity: 1.0,
+                  strokeWeight: 2
+              });
+              
+              var path3 = new google.maps.Polyline({
+                  path: pathArray3,
+                  geodesic: true,
+                  strokeColor: '#FFFF00',
+                  strokeOpacity: 1.0,
+                  strokeWeight: 2
+              });
+
+              path.setMap(map);
+              path2.setMap(map);
+              path3.setMap(map);
+              
               var infoWindow = new google.maps.InfoWindow({map: map});
 
               // Try HTML5 geolocation.
@@ -19,8 +73,6 @@ block content
                     lat: position.coords.latitude,
                     lng: position.coords.longitude
                   };
-
-                  pubs();
 
                   infoWindow.setPosition(pos);
                   infoWindow.setContent('Location found.');
@@ -41,25 +93,5 @@ block content
                                     'Error: Your browser doesn\'t support geolocation.');
             }
         })
-
-      function pubs() {
-
-        pubnub = PUBNUB.init({
-          publish_key:'pub-c-a4c4474b-9798-4031-8ddc-114987179ce8',
-          subscribe_key:'sub-c-48d24fe4-a07d-11e6-9bc0-02ee2ddab7fe'
-        })
-
-        pubnub.subscribe({
-          channel: "mymaps",
-          message: function(message, channel) {
-            console.log(message)
-            lat = message['lat'];
-            lng = message['lng'];
-            //custom method
-            redraw();
-          },
-          connect: function() {console.log("PubNub Connected")}
-        })
-      }
 
     script(async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC4Mdmwz4M0GbhDNj1PwjTnQ7FTx-wOLic&callback=initMap").

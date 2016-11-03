@@ -1,6 +1,23 @@
 extends layout
 
 block content
+    //
+        input(id="origin-input" class="controls" type="text"
+            placeholder="Enter an origin location")
+
+        input(id="destination-input" class="controls" type="text"
+            placeholder="Enter a destination location")
+
+        div(id="mode-selector" class="controls")
+          input(type="radio" name="type" id="changemode-walking" checked="checked")
+          label(for="changemode-walking") Walking
+
+          input(type="radio" name="type" id="changemode-transit")
+          label(for="changemode-transit") Transit
+
+          input(type="radio" name="type" id="changemode-driving")
+          label(for="changemode-driving") Driving
+          
     div(id="map")
 
     script(type="text/javascript").
@@ -32,7 +49,7 @@ block content
             window.initMap = function initMap() {
               map = new google.maps.Map(document.getElementById('map'), {
                 center: {lat: 32.879350, lng: -117.238559},
-                zoom: 14
+                zoom: 16
               });
               
               
@@ -64,7 +81,17 @@ block content
               path2.setMap(map);
               path3.setMap(map);
               
-              var infoWindow = new google.maps.InfoWindow({map: map});
+             // var infoWindow = new google.maps.InfoWindow({map: map});
+               var image = 'places.png';
+
+            
+
+             var currLocMarker = new google.maps.Marker({
+                    animation: google.maps.Animation.DROP,
+                    icon: image,
+                    scale: 0.01,
+                    map: map,
+                  });
 
               // Try HTML5 geolocation.
               if (navigator.geolocation) {
@@ -74,9 +101,12 @@ block content
                     lng: position.coords.longitude
                   };
 
-                  infoWindow.setPosition(pos);
-                  infoWindow.setContent('Location found.');
+                  currLocMarker.setPosition(pos);
+
+                  //infoWindow.setPosition(pos);
+                  //infoWindow.setContent('Current Location');
                   map.setCenter(pos);
+
                 }, function() {
                   handleLocationError(true, infoWindow, map.getCenter());
                 });
@@ -94,4 +124,4 @@ block content
             }
         })
 
-    script(async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC4Mdmwz4M0GbhDNj1PwjTnQ7FTx-wOLic&callback=initMap").
+    script(async defer src="https://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyC4Mdmwz4M0GbhDNj1PwjTnQ7FTx-wOLic&callback=initMap").

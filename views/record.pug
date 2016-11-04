@@ -17,7 +17,17 @@ block content
 
       input(type="radio" name="type" id="changemode-driving")
       label(for="changemode-driving") Driving
-          
+
+    div(class="center-block button-wrapper text-center")
+        button(type="button" id="recordfinish" class="btn btn-danger") Stop Recording
+    
+    script(type='text/javascript').
+        window.onload = function() {
+            document.getElementById("recordfinish").onclick = function() {
+                location.href= "/rate";
+            };
+        };
+
     div(id="map")
 
     script(type="text/javascript").
@@ -56,6 +66,7 @@ block content
                 center: {lat: 32.879350, lng: -117.238559},
                 zoom: 16
               });
+             
               var directionsService = new google.maps.DirectionsService;
               var directionsDisplay = new google.maps.DirectionsRenderer;
               directionsDisplay.setMap(map);

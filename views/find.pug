@@ -24,6 +24,13 @@ block content
         var pathArray;
         var pathArray2;
         var pathArray3;
+        var path;
+        var path2;
+        var path3;
+        var durationInfoWindow1;
+        var durationInfoWindow2;
+        var durationInfoWindow3;
+
         var map;
         $(document).ready(function(){
         
@@ -67,6 +74,19 @@ block content
               map.controls[google.maps.ControlPosition.TOP_LEFT].push(origin_input);
               map.controls[google.maps.ControlPosition.TOP_LEFT].push(destination_input);
               map.controls[google.maps.ControlPosition.TOP_LEFT].push(modes);
+
+
+              // Button starts
+              // Create the DIV to hold the control and call the CenterControl()
+        // constructor passing in this DIV.
+              var centerControlDiv = document.createElement('div');
+              var centerControl = new CenterControl(centerControlDiv, map);
+
+              centerControlDiv.index = 1;
+              map.controls[google.maps.ControlPosition.TOP_CENTER].push(centerControlDiv);
+
+              //Button ENds
+
 
               var origin_autocomplete = new google.maps.places.Autocomplete(origin_input);
               origin_autocomplete.bindTo('bounds', map);
@@ -137,6 +157,27 @@ block content
                   travelMode: travel_mode
                 }, function(response, status) {
                   if (status === 'OK') {
+                    path.setMap(map);
+                    path2.setMap(map);
+                    path3.setMap(map);
+                    durationInfoWindow1 = new google.maps.InfoWindow({
+                        content: '6 mins',
+                        map: map,
+                        position: data.paths[4]
+                    });
+                    
+                    durationInfoWindow2 = new google.maps.InfoWindow({
+                        content: '10 mins',
+                        map: map,
+                        position: data2.paths[4]
+                    });
+
+                    durationInfoWindow3 = new google.maps.InfoWindow({
+                        content: '8 mins',
+                        map: map,
+                        position: data3.paths[3]
+                    });                   
+
                     directionsDisplay.setDirections(response);
                   } else {
                     window.alert('Directions request failed due to ' + status);
@@ -147,7 +188,7 @@ block content
 
               //Add paths
               
-              var path = new google.maps.Polyline({
+              path = new google.maps.Polyline({
                   path: pathArray,
                   geodesic: true,
                   strokeColor: '#f44336',
@@ -155,15 +196,18 @@ block content
                   strokeWeight: 6
               });
               
-              var path2 = new google.maps.Polyline({
+
+              
+              path2 = new google.maps.Polyline({
                   path: pathArray2,
                   geodesic: true,
                   strokeColor: '#33cc33',
                   strokeOpacity: 1.0,
                   strokeWeight: 6
               });
-              
-              var path3 = new google.maps.Polyline({
+             
+             
+              path3 = new google.maps.Polyline({
                   path: pathArray3,
                   geodesic: true,
                   strokeColor: '#ff9933',
@@ -171,9 +215,57 @@ block content
                   strokeWeight: 6
               });
 
-              path.setMap(map);
-              path2.setMap(map);
-              path3.setMap(map);
+              path.addListener('click', function() {
+                  path2.setMap(null);
+                  path3.setMap(null);
+                  directionsDisplay.setMap(null);
+                  durationInfoWindow1.close();
+                  durationInfoWindow2.close();
+                  durationInfoWindow3.close();
+
+              });              
+              path2.addListener('click', function() {
+                  path.setMap(null);
+                  path3.setMap(null);
+                  directionsDisplay.setMap(null);
+                  durationInfoWindow1.close();
+                  durationInfoWindow2.close();
+                  durationInfoWindow3.close();
+
+              });
+              path3.addListener('click', function() {
+                  path2.setMap(null);
+                  path.setMap(null);
+                  directionsDisplay.setMap(null);
+                  durationInfoWindow1.close();
+                  durationInfoWindow2.close();
+                  durationInfoWindow3.close();
+              });
+
+              
+              /*
+              path.addListener('click', removePaths());
+              path2.addListener('click', removePaths());
+              path3.addListener('click', removePaths());
+
+            
+              function removePaths() {
+                  path.setMap(null);
+                  path2.setMap(null);
+                  path3.setMap(null);
+                  directionsDisplay.setMap(null);
+                  durationInfoWindow1.close();
+                  durationInfoWindow2.close();
+                  durationInfoWindow3.close();
+
+              }
+              */
+
+                
+
+              //path.setMap(map);
+              //path2.setMap(map);
+              //path3.setMap(map);
               
              // var infoWindow = new google.maps.InfoWindow({map: map});
                var image = 'places.png';
@@ -197,8 +289,7 @@ block content
 
                   currLocMarker.setPosition(pos);
 
-                  //infoWindow.setPosition(pos);
-                  //infoWindow.setContent('Current Location');
+
                   map.setCenter(pos);
 
                 }, function() {
@@ -216,6 +307,40 @@ block content
                                     'Error: The Geolocation service failed.' :
                                     'Error: Your browser doesn\'t support geolocation.');
             }
+
+            function CenterControl(controlDiv, map) {
+
+                // Set CSS for the control border.
+                var controlUI = document.createElement('div');
+                controlUI.style.backgroundColor = '#fff';
+                controlUI.style.border = '2px solid #fff';
+                controlUI.style.borderRadius = '3px';
+                controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
+                controlUI.style.cursor = 'pointer';
+                controlUI.style.marginBottom = '22px';
+                controlUI.style.textAlign = 'center';
+                controlUI.title = 'Click if you are finished';
+                controlDiv.appendChild(controlUI);
+
+                // Set CSS for the control interior.
+                var controlText = document.createElement('div');
+                controlText.style.color = 'rgb(25,25,25)';
+                controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
+                controlText.style.fontSize = '16px';
+                controlText.style.lineHeight = '38px';
+                controlText.style.paddingLeft = '5px';
+                controlText.style.paddingRight = '5px';
+                controlText.innerHTML = 'Finished';
+                controlUI.appendChild(controlText);
+
+                // Setup the click event listeners: simply set the map to Chicago.
+                controlUI.addEventListener('click', function() {
+                    location.href= "/rate";
+                });
+          }
+
+
+
         })
 
     script(async defer src="https://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyC4Mdmwz4M0GbhDNj1PwjTnQ7FTx-wOLic&libraries=places&callback=initMap").

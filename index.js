@@ -42,7 +42,7 @@ app.get('/record', function(request, response) {
 
 app.get('/find', function(request, response) {
   response.render('find',
-            { title: 'Find a route',});
+            { title: 'Find a route', data: JSON.stringify(data), data2: JSON.stringify(data2), data3: JSON.stringify(data3)});
 });
 
 app.get('/rate', function(request, response) {

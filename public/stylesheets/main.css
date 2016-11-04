@@ -92,4 +92,7 @@ html, body {
         font-size: 13px;
         font-weight: 300;
       }
-
+body {
+  background: url(background.jpg);
+  background-size: cover;
+}

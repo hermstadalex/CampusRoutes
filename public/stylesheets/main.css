@@ -102,11 +102,13 @@ body {
         background-color: #4d90fe;
         margin-left: 12px;
         padding: 5px 11px 0px 11px;
+        display: none
       }
 
       #mode-selector label {
         font-family: Roboto;
         font-size: 13px;
         font-weight: 300;
+        display: none
       }
 

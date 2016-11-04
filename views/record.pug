@@ -17,7 +17,17 @@ block content
 
           input(type="radio" name="type" id="changemode-driving")
           label(for="changemode-driving") Driving
-          
+    
+    div(class="center-block button-wrapper text-center")
+        button(type="button" id="recordfinish" class="btn btn-danger") Stop Recording
+    
+    script(type='text/javascript').
+        window.onload = function() {
+            document.getElementById("recordfinish").onclick = function() {
+                location.href= "/rate";
+            };
+        };
+
     div(id="map")
 
     script(type="text/javascript").
@@ -52,27 +62,10 @@ block content
                 zoom: 16
               });
               
-              
               var path = new google.maps.Polyline({
                   path: pathArray,
                   geodesic: true,
                   strokeColor: '#00ff00',
-                  strokeOpacity: 1.0,
-                  strokeWeight: 2
-              });
-              
-              var path2 = new google.maps.Polyline({
-                  path: pathArray2,
-                  geodesic: true,
-                  strokeColor: '#ff0000',
-                  strokeOpacity: 1.0,
-                  strokeWeight: 2
-              });
-              
-              var path3 = new google.maps.Polyline({
-                  path: pathArray3,
-                  geodesic: true,
-                  strokeColor: '#FFFF00',
                   strokeOpacity: 1.0,
                   strokeWeight: 2
               });

@@ -1,24 +1,7 @@
 extends layout
 
 block content
-    
-    input(id="origin-input" class="controls" type="text"
-        placeholder="Enter an origin location")
 
-    input(id="destination-input" class="controls" type="text"
-        placeholder="Enter a destination location")
-
-    div(id="mode-selector" class="controls")
-      input(type="radio" name="type" id="changemode-walking" checked="checked")
-      label(for="changemode-walking") Walking
-
-      input(type="radio" name="type" id="changemode-transit")
-      label(for="changemode-transit") Transit
-
-      input(type="radio" name="type" id="changemode-driving")
-      label(for="changemode-driving") Driving
-    
-    
     div(id="map")
 
     script(type="text/javascript").
@@ -26,32 +9,25 @@ block content
         var pathArray2;
         var pathArray3;
         var map;
+
+        var pts = [];               // All the GPS points
+        var distIndex = 1;          // Index for distance calculation
+        var totalDistance = 0.0;    // Total distance travelled
+        var currentLat = 0.0;       // Current latitude
+        var currentLng = 0.0;       // Current longitude
+        var accuracy = 0.0;         // Current accuracy in miles
+        var minDistance = 0.05;     // Minimum distance (miles) between collected points.
+        var isStarted = false;      // Flag tracking the application state.
+        var map = null;             // The map
+        var markers = [];           // Container for the map markers
+        var positionTimer;          // The id of the position timer.
+
         $(document).ready(function(){
         
-            var datString = "#{data}".replace(/&quot;/g, '"');
-            var comp = decodeURIComponent(datString);
-            var data = JSON.parse(comp);
-            
-            pathArray = data.paths;
-            
-            var datString2 = "#{data2}".replace(/&quot;/g, '"');
-            var comp2 = decodeURIComponent(datString2);
-            var data2 = JSON.parse(comp2);
-            
-            pathArray2 = data2.paths;
-            
-            var datString3 = "#{data3}".replace(/&quot;/g, '"');
-            var comp3 = decodeURIComponent(datString3);
-            var data3 = JSON.parse(comp3);
-            
-            pathArray3 = data3.paths;
             
                             
             window.initMap = function initMap() {
-              var origin_place_id = null;
-              var destination_place_id = null;
-              var travel_mode = 'WALKING';
-
+              
               map = new google.maps.Map(document.getElementById('map'), {
                 mapTypeControl: false,
                 center: {lat: 32.879350, lng: -117.238559},
@@ -67,133 +43,10 @@ block content
               centerControlDiv.index = 1;
               map.controls[google.maps.ControlPosition.TOP_CENTER].push(centerControlDiv);
 
-              //Button ENds
-             
-              var directionsService = new google.maps.DirectionsService;
-              var directionsDisplay = new google.maps.DirectionsRenderer;
-              directionsDisplay.setMap(map);
-
-              var origin_input = document.getElementById('origin-input');
-              var destination_input = document.getElementById('destination-input');
-              var modes = document.getElementById('mode-selector');
-
-              map.controls[google.maps.ControlPosition.TOP_LEFT].push(origin_input);
-              map.controls[google.maps.ControlPosition.TOP_LEFT].push(destination_input);
-              map.controls[google.maps.ControlPosition.TOP_LEFT].push(modes);
-
-              var origin_autocomplete = new google.maps.places.Autocomplete(origin_input);
-              origin_autocomplete.bindTo('bounds', map);
-              var destination_autocomplete =
-                  new google.maps.places.Autocomplete(destination_input);
-              destination_autocomplete.bindTo('bounds', map);
-
-
-              // Sets a listener on a radio button to change the filter type on Places
-              // Autocomplete.
-              function setupClickListener(id, mode) {
-                var radioButton = document.getElementById(id);
-                radioButton.addEventListener('click', function() {
-                  travel_mode = mode;
-                });
-              }
-              setupClickListener('changemode-walking', 'WALKING');
-              setupClickListener('changemode-transit', 'TRANSIT');
-              setupClickListener('changemode-driving', 'DRIVING');
-
-              function expandViewportToFitPlace(map, place) {
-                if (place.geometry.viewport) {
-                  map.fitBounds(place.geometry.viewport);
-                } else {
-                  map.setCenter(place.geometry.location);
-                  map.setZoom(17);
-                }
-              }
-
-              origin_autocomplete.addListener('place_changed', function() {
-                var place = origin_autocomplete.getPlace();
-                if (!place.geometry) {
-                  window.alert("Autocomplete's returned place contains no geometry");
-                  return;
-                }
-                expandViewportToFitPlace(map, place);
-
-                // If the place has a geometry, store its place ID and route if we have
-                // the other place ID
-                origin_place_id = place.place_id;
-                route(origin_place_id, destination_place_id, travel_mode,
-                      directionsService, directionsDisplay);
-              });
-
-              destination_autocomplete.addListener('place_changed', function() {
-                var place = destination_autocomplete.getPlace();
-                if (!place.geometry) {
-                  window.alert("Autocomplete's returned place contains no geometry");
-                  return;
-                }
-                expandViewportToFitPlace(map, place);
-
-                // If the place has a geometry, store its place ID and route if we have
-                // the other place ID
-                destination_place_id = place.place_id;
-                route(origin_place_id, destination_place_id, travel_mode,
-                      directionsService, directionsDisplay);
-              });
-
-                      function route(origin_place_id, destination_place_id, travel_mode,
-                             directionsService, directionsDisplay) {
-                if (!origin_place_id || !destination_place_id) {
-                  return;
-                }
-                directionsService.route({
-                  origin: {'placeId': origin_place_id},
-                  destination: {'placeId': destination_place_id},
-                  travelMode: travel_mode
-                }, function(response, status) {
-                  if (status === 'OK') {
-                    directionsDisplay.setDirections(response);
-                  } else {
-                    window.alert('Directions request failed due to ' + status);
-                  }
-                });
-              }
-
-
-              //Add paths
-              
-              var path = new google.maps.Polyline({
-                  path: pathArray,
-                  geodesic: true,
-                  strokeColor: '#3eb2f1',
-                  strokeOpacity: 1.0,
-                  strokeWeight: 6
-              });
-              
-              var path2 = new google.maps.Polyline({
-                  path: pathArray2,
-                  geodesic: true,
-                  strokeColor: '#33cc33',
-                  strokeOpacity: 1.0,
-                  strokeWeight: 6
-              });
-              
-              var path3 = new google.maps.Polyline({
-                  path: pathArray3,
-                  geodesic: true,
-                  strokeColor: '#ff9933',
-                  strokeOpacity: 1.0,
-                  strokeWeight: 6
-              });
-
-              path.setMap(map);
-              //path2.setMap(map);
-              //path3.setMap(map);
-              
              // var infoWindow = new google.maps.InfoWindow({map: map});
-               var image = 'places.png';
+              var image = 'places.png';
 
-            
-
-             var currLocMarker = new google.maps.Marker({
+              var currLocMarker = new google.maps.Marker({
                     animation: google.maps.Animation.DROP,
                     icon: image,
                     scale: 0.01,
@@ -208,11 +61,16 @@ block content
                     lng: position.coords.longitude
                   };
 
+                  pts.push(pos);
+
                   currLocMarker.setPosition(pos);
 
                   //infoWindow.setPosition(pos);
                   //infoWindow.setContent('Current Location');
                   map.setCenter(pos);
+
+                  updateCurrLocation();
+                  
 
                 }, function() {
                   handleLocationError(true, infoWindow, map.getCenter());
@@ -241,7 +99,6 @@ block content
                 controlUI.style.cursor = 'pointer';
                 controlUI.style.marginBottom = '22px';
                 controlUI.style.textAlign = 'center';
-                controlUI.title = 'Click if you are finish with recording path';
                 controlDiv.appendChild(controlUI);
 
                 // Set CSS for the control interior.
@@ -252,14 +109,60 @@ block content
                 controlText.style.lineHeight = '38px';
                 controlText.style.paddingLeft = '5px';
                 controlText.style.paddingRight = '5px';
-                controlText.innerHTML = 'Stop Recording';
+                controlText.innerHTML = 'Start Recording';
                 controlUI.appendChild(controlText);
+                var linkPage = false;
 
                 // Setup the click event listeners: simply set the map to Chicago.
                 controlUI.addEventListener('click', function() {
+                  if(!linkPage) {
+                    controlText.innerHTML = 'Stop Recording';
+                    linkPage = true;
+                  } else {
                     location.href= "/rate";
+
+
+                  }
+
                 });
             }
+
+            function updateCurrLocation() {
+              if (navigator.geolocation) {
+                   positionTimer = navigator.geolocation.watchPosition(
+                       function( position ){
+
+
+             
+                           pts.push(position);
+                           console.log("Curr Loc:" , position);
+                           console.log(pts);
+
+             
+                           // Track current position
+                           accuracy = position.coords.accuracy/609.344; // 609.344 meters per mile
+                           currentLat = position.coords.latitude;
+                           currentLng = position.coords.longitude;
+             
+                           // Update the status
+                           //updateStatus();
+                       },
+                       function( error ){
+                           console.log( "Something went wrong: ", error );
+                       },
+                       {
+                           timeout: (60 * 1000),
+                           maximumAge: (1000),
+                           enableHighAccuracy: true
+                       }
+                   );
+             
+               } else {
+                   alert("Your browser does not support geo-location.");
+               }  
+            }
+
+
         })
 
     script(async defer src="https://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyC4Mdmwz4M0GbhDNj1PwjTnQ7FTx-wOLic&libraries=places&callback=initMap").

@@ -22,6 +22,9 @@ block content
         var markers = [];           // Container for the map markers
         var positionTimer;          // The id of the position timer.
 
+        var startRecord = false;    // Boolean flag to start recording when pressed
+
+
         $(document).ready(function(){
         
             
@@ -111,13 +114,12 @@ block content
                 controlText.style.paddingRight = '5px';
                 controlText.innerHTML = 'Start Recording';
                 controlUI.appendChild(controlText);
-                var linkPage = false;
 
                 // Setup the click event listeners: simply set the map to Chicago.
                 controlUI.addEventListener('click', function() {
-                  if(!linkPage) {
+                  if(!startRecord) {
                     controlText.innerHTML = 'Stop Recording';
-                    linkPage = true;
+                    startRecord = true;
                   } else {
                     location.href= "/rate";
 
@@ -128,15 +130,16 @@ block content
             }
 
             function updateCurrLocation() {
-              if (navigator.geolocation) {
+              if (navigator.geolocation ) {
                    positionTimer = navigator.geolocation.watchPosition(
                        function( position ){
 
 
-             
-                           pts.push(position);
-                           console.log("Curr Loc:" , position);
-                           console.log(pts);
+                           if(startRecord) {
+                             pts.push(position);
+                             console.log("Curr Loc is:" , position);
+                             console.log(pts);
+                           }
 
              
                            // Track current position

@@ -1,7 +1,7 @@
 {
   "name": "campusroutes",
   "version": "0.2.5",
-  "description": "",
+  "description": "A barebones Node.js app using [Express 4](http://expressjs.com/).",
   "engines": {
     "node": "5.9.1"
   },
@@ -18,12 +18,18 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/hermstadalex/CampusRoutes.git"
+    "url": "git+https://github.com/hermstadalex/CampusRoutes.git"
   },
   "keywords": [
     "node",
     "heroku",
     "express"
   ],
-  "license": "MIT"
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hermstadalex/CampusRoutes/issues"
+  },
+  "homepage": "https://github.com/hermstadalex/CampusRoutes#readme",
+  "devDependencies": {},
+  "author": "HCI Team"
 }

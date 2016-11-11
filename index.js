@@ -44,7 +44,7 @@ app.post('/storeroute', function(request, response) {
 
   console.log(request.body.route);
   var firebaseRef = firebase.database().ref();
-  var childName;
+  firebaseRef.child('paths').push().set(request.body.route);
 
 
 
@@ -52,26 +52,6 @@ app.post('/storeroute', function(request, response) {
 });
 
 app.get('/test', function(request, response) {
-
-    var firebaseRef = firebase.database().ref();
-    var newPaths = 0; 
-    firebaseRef.on("value", function(snapshot) {
-        newPaths = (snapshot.val().numPaths);
-        }, function (error) {
-           console.log("Error: " + error.code);
-    });
-
-    newPaths++;
-    console.log(newPaths);
-
-
-    firebaseRef.child('numPaths').set(newPaths);
-
-
-   
-
-
-
 
 
     response.render('fireTest', {

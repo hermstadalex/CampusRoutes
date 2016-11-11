@@ -17,6 +17,9 @@ var positionTimer; // The id of the position timer.
 
 var startRecord = false; // Boolean flag to start recording when pressed
 
+var currLocIcon = 'blueDot.png';
+
+
 
 $(document).ready(function() {
     window.initMap = function initMap() {
@@ -39,15 +42,6 @@ $(document).ready(function() {
         centerControlDiv.index = 1;
         map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(centerControlDiv);
 
-        // var infoWindow = new google.maps.InfoWindow({map: map});
-        var image = 'places.png';
-
-        var currLocMarker = new google.maps.Marker({
-            animation: google.maps.Animation.DROP,
-            icon: image,
-            scale: 0.01,
-            map: map,
-        });
 
         // Try HTML5 geolocation.
         if (navigator.geolocation) {
@@ -58,8 +52,6 @@ $(document).ready(function() {
                 };
 
                 pts.push(pos);
-
-                currLocMarker.setPosition(pos);
 
                 //infoWindow.setPosition(pos);
                 //infoWindow.setContent('Current Location');
@@ -134,34 +126,50 @@ $(document).ready(function() {
 
 
 function updateCurrLocation() {
-    if (navigator.geolocation) {
-        positionTimer = navigator.geolocation.watchPosition(
-            function(position) {
-                if (startRecord) {
-                    pts.push({ "lat": position.coords.latitude, "lng": position.coords.longitude});
-                    console.log("Curr Loc is:", position);
-                    console.log(pts);
-                }
+    positionTimer = navigator.geolocation.watchPosition(
+        function(position) {
+            if (startRecord) {
+                pts.push({ "lat": position.coords.latitude, "lng": position.coords.longitude});
 
 
-                // Track current position
-                accuracy = position.coords.accuracy / 609.344; // 609.344 meters per mile
-                currentLat = position.coords.latitude;
-                currentLng = position.coords.longitude;
+                var pos = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
 
-                // Update the status
-                //updateStatus();
-            },
-            function(error) {
-                console.log("Something went wrong: ", error);
-            }, {
-                timeout: (60 * 1000),
-                maximumAge: (1000),
-                enableHighAccuracy: true
+                var currLocMarker =   new google.maps.Marker({
+                                            animation: google.maps.Animation.DROP,
+                                            icon: currLocIcon,
+                                            scale: 1,
+                                            position: pos,
+                                            map: map,
+                                        });
+
+                map.setCenter(pos);
+                map.setZoom(19);
+                map.panTo(currLocMarker.position);
+
+                console.log("Curr Loc is:", position);
+                console.log(pts);
             }
-        );
 
-    } else {
-        alert("Your browser does not support geo-location.");
-    }
+
+            // Track current position
+            accuracy = position.coords.accuracy / 609.344; // 609.344 meters per mile
+            currentLat = position.coords.latitude;
+            currentLng = position.coords.longitude;
+
+            // Update the status
+            //updateStatus();
+        },
+        function(error) {
+            console.log("Something went wrong: ", error);
+        }, {
+            timeout: (60 * 1000),
+            maximumAge: (1000),
+            enableHighAccuracy: true
+        }
+    );
+
+  
 }

@@ -43,46 +43,34 @@ app.get('/', function(request, response) {
 app.post('/storeroute', function(request, response) {
 
   console.log(request.body.route);
+  var firebaseRef = firebase.database().ref();
+  var childName;
+
+
+
 
 });
 
 app.get('/test', function(request, response) {
 
     var firebaseRef = firebase.database().ref();
+    var newPaths = 0; 
+    firebaseRef.on("value", function(snapshot) {
+        newPaths = (snapshot.val().numPaths);
+        }, function (error) {
+           console.log("Error: " + error.code);
+    });
 
-    firebaseRef.child("child1").set("testing!!!");
+    newPaths++;
+    console.log(newPaths);
 
-    firebaseRef.child("child1").child("test_child10").set([{
-        "lat": 32.88093,
-        "lng": -117.23756
-    }, {
-        "lat": 32.88065,
-        "lng": -117.23809
-    }, {
-        "lat": 32.88047,
-        "lng": -117.23863
-    }, {
-        "lat": 32.88026,
-        "lng": -117.2389
-    }, {
-        "lat": 32.8802,
-        "lng": -117.23993
-    }, {
-        "lat": 32.8797,
-        "lng": -117.23998
-    }, {
-        "lat": 32.87972,
-        "lng": -117.24073
-    }, {
-        "lat": 32.87963,
-        "lng": -117.2427
-    }, {
-        "lat": 32.87932,
-        "lng": -117.24271
-    }, {
-        "lat": 32.87903,
-        "lng": -117.24266
-    }]);
+
+    firebaseRef.child('numPaths').set(newPaths);
+
+
+   
+
+
 
 
 

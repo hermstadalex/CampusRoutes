@@ -97,6 +97,10 @@ $(document).ready(function() {
         controlUI.style.textAlign = 'center';
         controlDiv.appendChild(controlUI);
 
+        var recordwarning = document.createElement('recordwarning');
+        recordwarning.style.textAlign = 'paddingLeft';
+
+
         // Set CSS for the control interior.
         var controlText = document.createElement('div');
         controlText.style.color = 'rgb(25,25,25)';

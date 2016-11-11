@@ -2,10 +2,12 @@ extends layout
 
 block content
 
-    div(id="map")
-      
+	div(class="alert alert-info" id="recordwarning")
+		strong Info!
+		|  Recording...
 
+	div(id="map")
+  
+	script(type="text/javascript" src="/js/record.js").
       
-    script(type="text/javascript" src="/js/record.js").
-      
-    script(async defer src="https://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyC4Mdmwz4M0GbhDNj1PwjTnQ7FTx-wOLic&libraries=places&callback=initMap").
+	script(async defer src="https://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyC4Mdmwz4M0GbhDNj1PwjTnQ7FTx-wOLic&libraries=places&callback=initMap").

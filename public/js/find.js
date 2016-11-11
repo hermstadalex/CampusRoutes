@@ -9,12 +9,17 @@ var durationInfoWindow2;
 var durationInfoWindow3;
 var mapsRoute;
 
+
+
 var map;
 
 $(document).ready(function() {
 
     var comp = decodeURIComponent(datString);
     var data = JSON.parse(comp);
+
+    var destCoords = {};
+    var origCoords = {};
 
     pathArray = data.paths;
 
@@ -27,6 +32,9 @@ $(document).ready(function() {
     var data3 = JSON.parse(comp3);
 
     pathArray3 = data3.paths;
+
+    var origCoords;
+    var destCoords;
 
 
     window.initMap = function initMap() {
@@ -97,6 +105,13 @@ $(document).ready(function() {
 
         origin_autocomplete.addListener('place_changed', function() {
             var place = origin_autocomplete.getPlace();
+            var lat = (place.geometry.location.lat());
+            var lng = place.geometry.location.lng();
+
+            origCoords = {lat, lng};
+
+            console.log(origCoords);
+
             if (!place.geometry) {
                 window.alert("Autocomplete's returned place contains no geometry");
                 return;
@@ -112,11 +127,34 @@ $(document).ready(function() {
 
         destination_autocomplete.addListener('place_changed', function() {
             var place = destination_autocomplete.getPlace();
+            var lat = (place.geometry.location.lat());
+            var lng = place.geometry.location.lng();
+
+            destCoords = {lat, lng};
+
+
+            $.ajax({
+                type: 'POST',
+                url: '/pickroute',
+                data: {
+                    "orig": origCoords,
+                    "dest": destCoords
+                },
+                success: function(data) {
+                    console.log(data);
+                }
+            });
+
+            console.log(destCoords);
+
             if (!place.geometry) {
                 window.alert("Autocomplete's returned place contains no geometry");
                 return;
             }
             expandViewportToFitPlace(map, place);
+
+
+
 
             // If the place has a geometry, store its place ID and route if we have
             // the other place ID
@@ -124,6 +162,9 @@ $(document).ready(function() {
             route(origin_place_id, destination_place_id, travel_mode,
                 directionsService, directionsDisplay);
         });
+
+
+
 
         function route(origin_place_id, destination_place_id, travel_mode,
             directionsService, directionsDisplay) {

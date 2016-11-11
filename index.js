@@ -35,20 +35,27 @@ app.use(bodyParser.json());
 
 app.get('/', function(request, response) {
     response.render('index', {
-        title: 'Homepage',
-        message: 'Yo Yo'
+        title: 'Homepage'
     });
 });
 
-app.post('/storeroute', function(request, response) {
+app.post('/pickroute', function(request, response) {
 
+  var origCoords = request.body.orig;
+  var destCoords = request.body.dest;
+
+  console.log(origCoords);
+  console.log(destCoords);
+
+
+  var firebaseRef = firebase.database().ref();
+  response.send("Test")
+});
+
+app.post('/storeroute', function(request, response) {
   console.log(request.body.route);
   var firebaseRef = firebase.database().ref();
   firebaseRef.child('paths').push().set(request.body.route);
-
-
-
-
 });
 
 app.get('/test', function(request, response) {

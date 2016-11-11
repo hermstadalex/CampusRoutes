@@ -138,7 +138,7 @@ function updateCurrLocation() {
         positionTimer = navigator.geolocation.watchPosition(
             function(position) {
                 if (startRecord) {
-                    pts.push({ "lat": position.latitude, "lng": position.longitude});
+                    pts.push({ "lat": position.coords.latitude, "lng": position.coords.longitude});
                     console.log("Curr Loc is:", position);
                     console.log(pts);
                 }

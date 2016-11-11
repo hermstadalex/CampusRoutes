@@ -9,7 +9,7 @@ var totalDistance = 0.0; // Total distance travelled
 var currentLat = 0.0; // Current latitude
 var currentLng = 0.0; // Current longitude
 var accuracy = 0.0; // Current accuracy in miles
-var minDistance = 0.05; // Minimum distance (miles) between collected points.
+var minDistance = 0.00284091; // Minimum distance (miles) between collected points. 15
 var isStarted = false; // Flag tracking the application state.
 var map = null; // The map
 var markers = []; // Container for the map markers
@@ -129,8 +129,14 @@ function updateCurrLocation() {
     positionTimer = navigator.geolocation.watchPosition(
         function(position) {
             if (startRecord) {
-                pts.push({ "lat": position.coords.latitude, "lng": position.coords.longitude});
 
+
+                var dist = distance(currentLat, currentLng, position.coords.latitude, position.coords.longitude);
+                if(dist<minDistance){
+                   // Ignore points that are within a certain distance to the last point.
+                    return;
+                }
+                pts.push({ "lat": position.coords.latitude, "lng": position.coords.longitude});
 
                 var pos = {
                     lat: position.coords.latitude,
@@ -151,13 +157,15 @@ function updateCurrLocation() {
 
                 console.log("Curr Loc is:", position);
                 console.log(pts);
+
+
+                // Track current position
+                accuracy = position.coords.accuracy / 609.344; // 609.344 meters per mile
+                currentLat = position.coords.latitude;
+                currentLng = position.coords.longitude;
             }
 
 
-            // Track current position
-            accuracy = position.coords.accuracy / 609.344; // 609.344 meters per mile
-            currentLat = position.coords.latitude;
-            currentLng = position.coords.longitude;
 
             // Update the status
             //updateStatus();
@@ -169,7 +177,27 @@ function updateCurrLocation() {
             maximumAge: (1000),
             enableHighAccuracy: true
         }
-    );
-
-  
+    );  
 }
+
+function distance(lat1, lng1, lat2, lng2) {
+   var radius = 3956.0; // miles
+ 
+   var deltaLat = ToRadians(lat2 - lat1);
+   var deltaLng = ToRadians(lng2 - lng1);
+   var sinLat = Math.sin(0.5*deltaLat);
+   var sinLng = Math.sin(0.5*deltaLng);
+   var cosLat1 = Math.cos(ToRadians(lat1));
+   var cosLat2 = Math.cos(ToRadians(lat2));
+   var h1 = sinLat*sinLat + cosLat1*cosLat2*sinLng*sinLng;
+   var h2 = Math.sqrt(h1);
+   var h3 = 2*Math.asin(Math.min(1, h2));
+   var distance = radius*h3;
+   return distance;
+}
+ 
+function ToRadians(degree) {
+   return (degree * (Math.PI / 180));
+}
+
+

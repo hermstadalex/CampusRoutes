@@ -97,10 +97,6 @@ $(document).ready(function() {
         controlUI.style.textAlign = 'center';
         controlDiv.appendChild(controlUI);
 
-        var recordwarning = document.createElement('recordwarning');
-        recordwarning.style.textAlign = 'paddingLeft';
-
-
         // Set CSS for the control interior.
         var controlText = document.createElement('div');
         controlText.style.color = 'rgb(25,25,25)';
@@ -119,49 +115,53 @@ $(document).ready(function() {
                 startRecord = true;
             } else {
 
-              $.ajax({
-                type: 'POST',
-                url: '/storeroute',
-                data: {"route":pts},
-                success: function(data){
-                  console.log(data);
-                }
-              });
-            }
-          });
-        }
-      });
-
-
-    function updateCurrLocation() {
-        if (navigator.geolocation) {
-            positionTimer = navigator.geolocation.watchPosition(
-                function(position) {
-                    if (startRecord) {
-                        pts.push(position);
-                        console.log("Curr Loc is:", position);
-                        console.log(pts);
+                $.ajax({
+                    type: 'POST',
+                    url: '/storeroute',
+                    data: {
+                        "route": pts
+                    },
+                    success: function(data) {
+                        console.log(data);
                     }
+                });
 
-
-                    // Track current position
-                    accuracy = position.coords.accuracy / 609.344; // 609.344 meters per mile
-                    currentLat = position.coords.latitude;
-                    currentLng = position.coords.longitude;
-
-                    // Update the status
-                    //updateStatus();
-                },
-                function(error) {
-                    console.log("Something went wrong: ", error);
-                }, {
-                    timeout: (60 * 1000),
-                    maximumAge: (1000),
-                    enableHighAccuracy: true
-                }
-            );
-
-        } else {
-            alert("Your browser does not support geo-location.");
-        }
+                location.href = "/rate";
+            }
+        });
     }
+});
+
+
+function updateCurrLocation() {
+    if (navigator.geolocation) {
+        positionTimer = navigator.geolocation.watchPosition(
+            function(position) {
+                if (startRecord) {
+                    pts.push(position);
+                    console.log("Curr Loc is:", position);
+                    console.log(pts);
+                }
+
+
+                // Track current position
+                accuracy = position.coords.accuracy / 609.344; // 609.344 meters per mile
+                currentLat = position.coords.latitude;
+                currentLng = position.coords.longitude;
+
+                // Update the status
+                //updateStatus();
+            },
+            function(error) {
+                console.log("Something went wrong: ", error);
+            }, {
+                timeout: (60 * 1000),
+                maximumAge: (1000),
+                enableHighAccuracy: true
+            }
+        );
+
+    } else {
+        alert("Your browser does not support geo-location.");
+    }
+}

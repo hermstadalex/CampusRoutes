@@ -42,11 +42,8 @@ app.get('/', function(request, response) {
 
 app.post('/storeroute', function(request, response) {
 
-  console.log('body: ' + JSON.stringify(request.body));
+  console.log(request.body.route);
 
-  response.render('rate', {
-      title: 'Rate your Route',
-  });
 });
 
 app.get('/test', function(request, response) {

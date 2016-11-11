@@ -114,13 +114,20 @@ $(document).ready(function() {
                 controlText.innerHTML = 'Stop Recording';
                 startRecord = true;
             } else {
-                location.href = "/rate";
 
-
+              $.ajax({
+                type: 'POST',
+                url: '/storeroute',
+                data: {"route":pts},
+                success: function(data){
+                  console.log(data);
+                }
+              });
             }
+          });
+        }
+      });
 
-        });
-    }
 
     function updateCurrLocation() {
         if (navigator.geolocation) {
@@ -154,6 +161,3 @@ $(document).ready(function() {
             alert("Your browser does not support geo-location.");
         }
     }
-
-
-})

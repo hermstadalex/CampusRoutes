@@ -40,6 +40,15 @@ app.get('/', function(request, response) {
     });
 });
 
+app.post('/storeroute', function(request, response) {
+
+  console.log('body: ' + JSON.stringify(request.body));
+
+  response.render('rate', {
+      title: 'Rate your Route',
+  });
+});
+
 app.get('/test', function(request, response) {
 
     var firebaseRef = firebase.database().ref();

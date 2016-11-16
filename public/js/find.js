@@ -173,13 +173,13 @@ $(document).ready(function() {
                     path2.setMap(map);
                     path3.setMap(map);
                     durationInfoWindow1 = new google.maps.InfoWindow({
-                        content: '6 mins',
+                        content: '10 mins',
                         map: map,
                         position: data.paths[4]
                     });
 
                     durationInfoWindow2 = new google.maps.InfoWindow({
-                        content: '10 mins',
+                        content: '6 mins',
                         map: map,
                         position: data2.paths[4]
                     });
@@ -190,7 +190,7 @@ $(document).ready(function() {
                         position: data3.paths[3]
                     });
 
-                    directionsDisplay.setDirections(response);
+                    directionsDisplay.setDirections(null);
                 } else {
                     window.alert('Directions request failed due to ' + status);
                 }

@@ -59,8 +59,6 @@ app.post('/storeroute', function(request, response) {
 });
 
 app.get('/test', function(request, response) {
-
-
     response.render('fireTest', {
         title: 'Homepage',
         message: 'Yo Yo'

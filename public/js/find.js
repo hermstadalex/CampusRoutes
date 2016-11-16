@@ -11,8 +11,6 @@ var mapsRoute;
 var displayedCancel = false;
 var displayedFind = false;
 
-
-
 var map;
 
 $(document).ready(function() {
@@ -253,6 +251,7 @@ $(document).ready(function() {
               centerControlDiv.index = 1;
               map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(centerControlDiv);
               //Button ENds
+              displayedFind = true
             }
 
         });
@@ -280,6 +279,7 @@ $(document).ready(function() {
               var centerControl = new CenterControl(centerControlDiv, map);
               centerControlDiv.index = 1;
               map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(centerControlDiv);
+              displayedFind = true
               //Button ENds
             }
         });
@@ -307,6 +307,7 @@ $(document).ready(function() {
               centerControlDiv.index = 1;
               map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(centerControlDiv);
               //Button ENds
+              displayedFind = true
             }
         });
 

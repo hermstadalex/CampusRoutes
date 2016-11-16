@@ -8,6 +8,7 @@ var durationInfoWindow1;
 var durationInfoWindow2;
 var durationInfoWindow3;
 var mapsRoute;
+var displayedCancel = false;
 
 
 
@@ -38,6 +39,7 @@ $(document).ready(function() {
 
 
     window.initMap = function initMap() {
+        console.log(newFind);
         var origin_place_id = null;
         var destination_place_id = null;
         var travel_mode = 'WALKING';
@@ -68,10 +70,8 @@ $(document).ready(function() {
         // constructor passing in this DIV.
         var centerControlDiv = document.createElement('div');
         var centerControl = new CenterControl(centerControlDiv, map);
-
         centerControlDiv.index = 1;
         map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(centerControlDiv);
-
         //Button ENds
 
 
@@ -247,6 +247,14 @@ $(document).ready(function() {
             durationInfoWindow2.close();
             durationInfoWindow3.close();
 
+            // TODO TODO TODO ***************** TODO TODO TODO add condidtion
+            if( displayedCancel == false && newFind == true ){
+              var centerControlDiv = document.createElement('div');
+              var centerControl = new CenterControlBack(centerControlDiv, map);
+              centerControlDiv.index = 1;
+              map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(centerControlDiv);
+            }
+
         });
         path2.addListener('click', function() {
             path.setMap(null);
@@ -256,6 +264,13 @@ $(document).ready(function() {
             durationInfoWindow2.close();
             durationInfoWindow3.close();
 
+            if( displayedCancel == false && newFind == true ){
+              var centerControlDiv = document.createElement('div');
+              var centerControl = new CenterControlBack(centerControlDiv, map);
+              centerControlDiv.index = 1;
+              map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(centerControlDiv);
+              console.log(map.controls[google.maps.ControlPosition.BOTTOM_CENTER])
+            }
         });
         path3.addListener('click', function() {
             path2.setMap(null);
@@ -264,6 +279,13 @@ $(document).ready(function() {
             durationInfoWindow1.close();
             durationInfoWindow2.close();
             durationInfoWindow3.close();
+
+            if( displayedCancel == false && newFind == true ){
+              var centerControlDiv = document.createElement('div');
+              var centerControl = new CenterControlBack(centerControlDiv, map);
+              centerControlDiv.index = 1;
+              map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(centerControlDiv);
+            }
         });
 
         /*
@@ -359,6 +381,43 @@ $(document).ready(function() {
         // Setup the click event listeners: simply set the map to Chicago.
         controlUI.addEventListener('click', function() {
             location.href = "/rate";
+        });
+    }
+
+    function CenterControlBack(controlDiv, map) {
+
+        displayedCancel = true;
+
+        // Set CSS for the control border.
+        var controlUI = document.createElement('div');
+        controlUI.style.backgroundColor = '#FF0000';
+        controlUI.style.border = '2px solid #1e88e5';
+        controlUI.style.borderRadius = '3px';
+        controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
+        controlUI.style.cursor = 'pointer';
+        controlUI.style.marginBottom = '22px';
+        controlUI.style.textAlign = 'center';
+        controlUI.title = 'Click if you to go back';
+        controlDiv.appendChild(controlUI);
+
+        // Set CSS for the control interior.
+        var controlText = document.createElement('div');
+        controlText.style.color = '#ffffff';
+        controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
+        controlText.style.fontSize = '16px';
+        controlText.style.lineHeight = '38px';
+        controlText.style.paddingLeft = '5px';
+        controlText.style.paddingRight = '5px';
+        controlText.innerHTML = 'Cancel';
+        controlUI.appendChild(controlText);
+
+        // Setup the click event listeners: simply set the map to Chicago.
+        controlUI.addEventListener('click', function() {
+          path2.setMap(map);
+          path3.setMap(map);
+          path.setMap(map);
+          displayedCancel = false;
+          map.controls[google.maps.ControlPosition.BOTTOM_CENTER].pop();
         });
     }
 

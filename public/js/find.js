@@ -9,6 +9,7 @@ var durationInfoWindow2;
 var durationInfoWindow3;
 var mapsRoute;
 var displayedCancel = false;
+var displayedFind = false;
 
 
 
@@ -63,17 +64,6 @@ $(document).ready(function() {
         map.controls[google.maps.ControlPosition.TOP_LEFT].push(origin_input);
         map.controls[google.maps.ControlPosition.TOP_LEFT].push(destination_input);
         map.controls[google.maps.ControlPosition.TOP_LEFT].push(modes);
-
-
-        // Button starts
-        // Create the DIV to hold the control and call the CenterControl()
-        // constructor passing in this DIV.
-        var centerControlDiv = document.createElement('div');
-        var centerControl = new CenterControl(centerControlDiv, map);
-        centerControlDiv.index = 1;
-        map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(centerControlDiv);
-        //Button ENds
-
 
         var origin_autocomplete = new google.maps.places.Autocomplete(origin_input);
         origin_autocomplete.bindTo('bounds', map);
@@ -247,12 +237,22 @@ $(document).ready(function() {
             durationInfoWindow2.close();
             durationInfoWindow3.close();
 
-            // TODO TODO TODO ***************** TODO TODO TODO add condidtion
             if( displayedCancel == false && newFind == true ){
               var centerControlDiv = document.createElement('div');
               var centerControl = new CenterControlBack(centerControlDiv, map);
               centerControlDiv.index = 1;
               map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(centerControlDiv);
+            }
+
+            if( displayedFind == false ) {
+              // Button starts
+              // Create the DIV to hold the control and call the CenterControl()
+              // constructor passing in this DIV.
+              var centerControlDiv = document.createElement('div');
+              var centerControl = new CenterControl(centerControlDiv, map);
+              centerControlDiv.index = 1;
+              map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(centerControlDiv);
+              //Button ENds
             }
 
         });
@@ -271,6 +271,17 @@ $(document).ready(function() {
               map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(centerControlDiv);
               console.log(map.controls[google.maps.ControlPosition.BOTTOM_CENTER])
             }
+
+            if( displayedFind == false ) {
+              // Button starts
+              // Create the DIV to hold the control and call the CenterControl()
+              // constructor passing in this DIV.
+              var centerControlDiv = document.createElement('div');
+              var centerControl = new CenterControl(centerControlDiv, map);
+              centerControlDiv.index = 1;
+              map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(centerControlDiv);
+              //Button ENds
+            }
         });
         path3.addListener('click', function() {
             path2.setMap(null);
@@ -285,6 +296,17 @@ $(document).ready(function() {
               var centerControl = new CenterControlBack(centerControlDiv, map);
               centerControlDiv.index = 1;
               map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(centerControlDiv);
+            }
+
+            if( displayedFind == false ) {
+              // Button starts
+              // Create the DIV to hold the control and call the CenterControl()
+              // constructor passing in this DIV.
+              var centerControlDiv = document.createElement('div');
+              var centerControl = new CenterControl(centerControlDiv, map);
+              centerControlDiv.index = 1;
+              map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(centerControlDiv);
+              //Button ENds
             }
         });
 
@@ -417,6 +439,7 @@ $(document).ready(function() {
           path3.setMap(map);
           path.setMap(map);
           displayedCancel = false;
+          map.controls[google.maps.ControlPosition.BOTTOM_CENTER].pop();
           map.controls[google.maps.ControlPosition.BOTTOM_CENTER].pop();
         });
     }

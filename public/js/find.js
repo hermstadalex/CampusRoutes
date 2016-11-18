@@ -440,6 +440,7 @@ $(document).ready(function() {
           path3.setMap(map);
           path.setMap(map);
           displayedCancel = false;
+          displayedFind = false;
           map.controls[google.maps.ControlPosition.BOTTOM_CENTER].pop();
           map.controls[google.maps.ControlPosition.BOTTOM_CENTER].pop();
         });

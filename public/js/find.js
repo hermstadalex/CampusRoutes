@@ -15,6 +15,8 @@ var map;
 
 $(document).ready(function() {
 
+
+
     var comp = decodeURIComponent(datString);
     var data = JSON.parse(comp);
 
@@ -357,7 +359,6 @@ $(document).ready(function() {
 
                 currLocMarker.setPosition(pos);
 
-
                 map.setCenter(pos);
 
             }, function() {
@@ -404,7 +405,7 @@ $(document).ready(function() {
 
         // Setup the click event listeners: simply set the map to Chicago.
         controlUI.addEventListener('click', function() {
-            ga.send('send', 'event', 'finish', 'click');
+            ga('send', 'event', 'finish', 'click');
             location.href = "/rate";
         });
     }

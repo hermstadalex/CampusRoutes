@@ -404,8 +404,8 @@ $(document).ready(function() {
 
         // Setup the click event listeners: simply set the map to Chicago.
         controlUI.addEventListener('click', function() {
-            location.href = "/rate";
             ga.send('send', 'event', 'finish', 'click');
+            location.href = "/rate";
         });
     }
 

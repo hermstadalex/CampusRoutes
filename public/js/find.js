@@ -380,6 +380,7 @@ $(document).ready(function() {
 
         // Set CSS for the control border.
         var controlUI = document.createElement('div');
+        controlUI.setAttribute("id", "finishButton");
         controlUI.style.backgroundColor = '#2196f3';
         controlUI.style.border = '2px solid #1e88e5';
         controlUI.style.borderRadius = '3px';
@@ -404,6 +405,7 @@ $(document).ready(function() {
         // Setup the click event listeners: simply set the map to Chicago.
         controlUI.addEventListener('click', function() {
             location.href = "/rate";
+            ga.send('send', 'event', 'finish', 'click');
         });
     }
 
@@ -449,3 +451,5 @@ $(document).ready(function() {
 
 
 })
+
+
